@@ -1,23 +1,74 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef, createRef } from 'react';
+import { async } from 'async';
+import Frame from './Frame';
+import PythonRunner from './PythonRunner';
+import { useScreenshot, createFileName } from 'use-react-screenshot';
 
 function App() {
+  const [fileRederList, setFileRederList] = useState([]);
+  const [showImg, setShowImg] = useState(false);
+  const [image, takeScreenshot] = useScreenshot({
+    type: "image/jpg",
+    quality: 1.0
+  });
+  const fileInputRef = useRef(null);
+  const imgRef = createRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowImg(true)
+  }
+
+  const handleFileInputChange = async (e) => {
+    const newReaders = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      let filedata = e.target.files[i];
+      const reader = new FileReader(); // reader is async.
+      reader.readAsDataURL(filedata);
+      newReaders.push(reader)
+    }
+    setTimeout(() => {
+      setFileRederList(newReaders);
+    }, 2000)
+  }
+
+  const handleDownload = () => {
+    takeScreenshot(imgRef.current)
+    .then(download)
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="file"
+          name="files"
+          onChange={handleFileInputChange}
+          ref={fileInputRef}
+          multiple
+          accept='image/png , image/jpg , image/jpeg'
+        />
+        <button type="submit">Upload</button>
+      </form>
+      {
+        showImg && fileRederList.map((url, index) => (
+          <div ref={imgRef} style={{borderStyle: "solid", borderColor: "red", width: "20%"}}>
+            <Frame key = {index} images = {url.result} />
+          </div>
+        ))
+      }
+      <h1>uh.</h1>
+      <button onClick={handleDownload}>Download</button>
     </div>
   );
 }

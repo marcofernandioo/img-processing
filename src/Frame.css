@@ -1,0 +1,32 @@
+.parent {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-style: dashed;
+    border-width: 5px;
+    border-radius: 5px;
+}
+
+.image1 {
+    position: relative;
+    top: 0;
+    left: 0;
+    /* height: 100%; */
+    width: 100%;
+    /* border: 1px red solid; */
+}
+
+.rectangle1 {
+    position: absolute;
+    top: 10%;
+    left: 0px;
+    width: 100%;
+    /* border: 1px green solid; */
+}
+
+.text {
+    position: absolute;
+    left: 70px;
+    top: 150px;
+}
