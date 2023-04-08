@@ -2,12 +2,28 @@ import { useState } from 'react'
 import { Container } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Box, Button, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, Stack, Tab, TextField, TextareaAutosize, Typography } from '@mui/material'
+import { Box, Button, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Modal, Select, Stack, Tab, TextField, TextareaAutosize, Typography } from '@mui/material'
+import HeadPreview from '../components/HeadPreview'
 
 const Home = () => {
+  const [data, setData] = useState({
+    alamat: '',
+    harga: 0,
+    jenisPerumahan: '',
+    ukuran: '',
+    tingkat: '',
+    siapHuni: '',
+  })
+  const [openModal, setOpenModal] = useState(false)
   const [tab, setTab] = useState('manual')
   const [mataAngin, setMataAngin] = useState('utara')
   const [image, setImage] = useState()
+
+  const handleChangeData = e => {
+    const name = e.target.name
+    const val = e.target.value
+    setData({...data, [name]: val})
+  }
 
   const handleChangeTab = (e, newVal) => {
     setTab(newVal)
@@ -21,6 +37,14 @@ const Home = () => {
     const target = e.target
     const files = [...target.files]
     setImage(files[0])
+  }
+
+  const handleOpenModal = () => {
+    setOpenModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
   }
 
   return (
@@ -66,16 +90,16 @@ const Home = () => {
             </TabList>
           </Box>
           <TabPanel p={0} value='manual'>
-            <Stack spacing={3}>
-              <TextField id="alamat" label="Alamat" variant="outlined" />
-              <TextField id="harga" label="Harga" variant="outlined" />
-              <TextField id="jenisPerumahan" label="Jenis Perumahan" variant="outlined" />
+            <Stack mb={3} spacing={3}>
+              <TextField id="alamat" name='alamat' label="Alamat" variant="outlined" value={data.alamat} onChange={handleChangeData} />
+              <TextField type='number' id="harga" name='harga' label="Harga" variant="outlined" value={data.harga} onChange={handleChangeData} />
+              <TextField id="jenisPerumahan" name='jenisPerumahan' value={data.jenisPerumahan} label="Jenis Perumahan" variant="outlined" onChange={handleChangeData} />
               <Typography variant="h6">
                 Spesifikasi
               </Typography>
-              <TextField id="ukuran" label="Ukuran" variant="outlined" />
-              <TextField id="tingkat" label="Tingkat" variant="outlined" />
-              <TextField id="siapHuni" label="Siap Huni" variant="outlined" />
+              <TextField id="ukuran" name='ukuran' value={data.ukuran} label="Ukuran" variant="outlined" onChange={handleChangeData} />
+              <TextField id="tingkat" name='tingkat' value={data.tingkat} label="Tingkat" variant="outlined" onChange={handleChangeData} />
+              <TextField id="siapHuni" name='siapHuni' value={data.siapHuni} label="Siap Huni" variant="outlined" onChange={handleChangeData} />
               <FormControl>
                 <InputLabel>Arah Mata Angin</InputLabel>
                 <Select
@@ -93,14 +117,38 @@ const Home = () => {
             </Stack>
           </TabPanel>
           <TabPanel value='text'>
-            <Stack>
+            <Stack mb={3}>
               <TextareaAutosize minRows={8} />
             </Stack>
           </TabPanel>
         </TabContext>
-        <Button variant='contained'>
-          DOWNLOAD
-        </Button>
+        {
+          image &&
+          <>
+            <Button onClick={handleOpenModal} variant='contained'>PREVIEW</Button>
+            <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              sx={{ display: 'flex', alignItems: 'center', padding: '20px'}}
+            >
+              <Box sx={{
+                backgroundColor: '#fff',
+                width: '100%',
+                maxWidth: '600px',
+                margin: 'auto',
+                maxHeight: '90vh',
+                padding: '20px',
+                overflow: 'auto'
+              }}>
+                <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
+                <HeadPreview image={image} mataAngin={mataAngin} data={data} />
+                <Button variant='contained'>DOWNLOAD</Button>
+              </Box>
+            </Modal>
+          </>
+        }
       </Container>
     </>
   )
