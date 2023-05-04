@@ -16,10 +16,12 @@ const HeadPreview = ({ image, mataAngin, data }) => {
       display: 'flex',
       flexDirection: 'column',
       marginBottom: '20px',
-      height: '90vh'
+      height: '550px',
+      width: '550px'
     }}>
-      <div style={{ flex: 7, backgroundImage: `url(${URL.createObjectURL(image)})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
+      <div style={{ flex: 1, backgroundImage: `url(${URL.createObjectURL(image)})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
       <div style={{
+        flex: 1,
         backgroundColor: '#303D5D',
         color: '#fff',
         textAlign: 'center',

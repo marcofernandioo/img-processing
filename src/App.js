@@ -40,12 +40,12 @@
 //     });
 //   }
 
-//   const download = (image, { name = "img", extension = "jpg" } = {}) => {
-//     const a = document.createElement("a");
-//     a.href = image;
-//     a.download = createFileName(extension, name);
-//     a.click();
-//   };
+  // const download = (image, { name = "img", extension = "jpg" } = {}) => {
+  //   const a = document.createElement("a");
+  //   a.href = image;
+  //   a.download = createFileName(extension, name);
+  //   a.click();
+  // };
 
 //   return (
 //     <div className="App">
@@ -63,12 +63,12 @@
 //       {
 //         showImg && fileRederList.map((url, index) => (
 //           <div ref={imgRef} style={{borderStyle: "solid", borderColor: "red", width: "20%"}}>
-//             <Frame key = {index} images = {url.result} />
-//           </div>
+// //             <Frame key = {index} images = {url.result} />
+// //           </div>
 //         ))
 //       }
 //       <h1>uh.</h1>
-//       <button onClick={handleDownload}>Download</button>
+      // <button onClick={handleDownload}>Download</button>
 //     </div>
 //   );
 // }

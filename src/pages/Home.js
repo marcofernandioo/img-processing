@@ -71,15 +71,16 @@ const Home = () => {
           </Button>
           {
             image &&
-            <ImageList sx={{ width: 300, height: 250 }} cols={1}>
-              <ImageListItem>
-                <img
-                  src={URL.createObjectURL(image)}
-                  srcSet={URL.createObjectURL(image)}
-                  alt={image.name}
-                />
-              </ImageListItem>
-            </ImageList>
+            <div style={{ width: '300px', height: '300px', backgroundImage: `url(${URL.createObjectURL(image)})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
+            // <ImageList sx={{ width: 300, height: 250 }} cols={1}>
+              // <ImageListItem>
+              //   <img
+              //     src={URL.createObjectURL(image)}
+              //     srcSet={URL.createObjectURL(image)}
+              //     alt={image.name}
+              //   />
+              // </ImageListItem>
+            // </ImageList>
           }
         </Stack>
         <TabContext value={tab}>
@@ -91,15 +92,15 @@ const Home = () => {
           </Box>
           <TabPanel p={0} value='manual'>
             <Stack mb={3} spacing={3}>
+              <TextField id="jenisPerumahan" name='jenisPerumahan' value={data.jenisPerumahan} label="Nama" variant="outlined" onChange={handleChangeData} />
               <TextField id="alamat" name='alamat' label="Alamat" variant="outlined" value={data.alamat} onChange={handleChangeData} />
               <TextField type='number' id="harga" name='harga' label="Harga" variant="outlined" value={data.harga} onChange={handleChangeData} />
-              <TextField id="jenisPerumahan" name='jenisPerumahan' value={data.jenisPerumahan} label="Jenis Perumahan" variant="outlined" onChange={handleChangeData} />
               <Typography variant="h6">
                 Spesifikasi
               </Typography>
               <TextField id="ukuran" name='ukuran' value={data.ukuran} label="Ukuran" variant="outlined" onChange={handleChangeData} />
-              <TextField id="tingkat" name='tingkat' value={data.tingkat} label="Tingkat" variant="outlined" onChange={handleChangeData} />
               <TextField id="siapHuni" name='siapHuni' value={data.siapHuni} label="Siap Huni" variant="outlined" onChange={handleChangeData} />
+              <TextField id="tingkat" name='tingkat' value={data.tingkat} label="Jenis Perumahan" variant="outlined" onChange={handleChangeData} />
               <FormControl>
                 <InputLabel>Arah Mata Angin</InputLabel>
                 <Select
