@@ -71,15 +71,7 @@ const Home = () => {
           </Button>
           {
             image &&
-            <ImageList sx={{ width: 300, height: 250 }} cols={1}>
-              <ImageListItem>
-                <img
-                  src={URL.createObjectURL(image)}
-                  srcSet={URL.createObjectURL(image)}
-                  alt={image.name}
-                />
-              </ImageListItem>
-            </ImageList>
+            <div style={{ width: '300px', height: '300px', backgroundImage: `url(${URL.createObjectURL(image)})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
           }
         </Stack>
         <TabContext value={tab}>
