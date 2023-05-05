@@ -20,6 +20,8 @@ const Body = () => {
     const target = e.target
     const files = [...target.files]
     setImages([...images, ...files])
+    handleClickUpload()
+    setOpenModal(true)
   }
 
   const handleRemoveImage = idx => {
@@ -30,6 +32,7 @@ const Body = () => {
 
   const handleClickUpload = () => {
     setImagesResult(images)
+    setOpenModal(true)
   }
 
   return (
@@ -81,7 +84,7 @@ const Body = () => {
         {
           imagesResult.length > 0 &&
           <>
-            <ImageList sx={{ width: 500, height: '100%' }} cols={3} rowHeight={164}>
+            {/* <ImageList sx={{ width: 500, height: '100%' }} cols={3} rowHeight={164}>
               {
                 imagesResult.map((img, idx) => (
                   <ImageListItem key={idx}>
@@ -93,49 +96,52 @@ const Body = () => {
                   </ImageListItem>
                 ))
               }
-            </ImageList>
-            <Button onClick={handleOpenModal} variant='contained'>PREVIEW</Button>
-            <Modal
-              open={openModal}
-              onClose={handleCloseModal}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-              sx={{ display: 'flex', alignItems: 'center', padding: '20px'}}
-            >
-              <Box sx={{
-                backgroundColor: '#fff',
-                width: '100%',
-                maxWidth: '600px',
-                margin: 'auto',
-                maxHeight: '90vh',
-                padding: '20px',
-                overflow: 'auto'
-              }}>
-                <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
-                <div style={{
-                  flexDirection: 'column',
-                  marginBottom: '20px',
-                  width: '550px',
-                  height: '550px',
-                  backgroundImage: `url(${URL.createObjectURL(images[0])})`,
-                  position: 'relative',
-                  padding: '20px 10px',
-                  overflow: 'hidden'
+            </ImageList> */}
+            {/* <Button onClick={handleOpenModal} variant='contained'>PREVIEW</Button> */}
+            {
+              ((images.length % 2 === 0) && (images.length > 0)) &&
+              <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{ display: 'flex', alignItems: 'center', padding: '20px'}}
+              >
+                <Box sx={{
+                  backgroundColor: '#fff',
+                  width: '100%',
+                  maxWidth: '600px',
+                  margin: 'auto',
+                  maxHeight: '90vh',
+                  padding: '20px',
+                  overflow: 'auto'
                 }}>
-                  <div style={{ position: 'absolute', backgroundColor: 'rgba(0,0,0,.6)', top: 0, left: 0, right: 0, bottom: 0 }} />
-                  <div style={{ zIndex: 999, position: 'absolute', top: '-24px', right: '-10px', width: '200px', height: '50px', backgroundColor: '#CDAC6E', transform: 'rotate(15deg)', opacity: '.8' }} />
-                  <div style={{ zIndex: 999, position: 'absolute', bottom: '-24px', left: '-10px', width: '200px', height: '50px', backgroundColor: '#CDAC6E', transform: 'rotate(15deg)', opacity: '.8' }} />
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '550px', height: '550px', position: 'absolute' }}>
-                    <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
-                    <img style={{ flex: 1 }} src={URL.createObjectURL(images[0])} alt='' />
-                    <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
-                    <img style={{ flex: 1 }} src={URL.createObjectURL(images[0])} alt='' />
-                    <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
+                  <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
+                  <div style={{
+                    flexDirection: 'column',
+                    marginBottom: '20px',
+                    width: '550px',
+                    height: '550px',
+                    backgroundImage: `url(${URL.createObjectURL(images[0])})`,
+                    position: 'relative',
+                    padding: '20px 10px',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ position: 'absolute', backgroundColor: 'rgba(0,0,0,.6)', top: 0, left: 0, right: 0, bottom: 0 }} />
+                    <div style={{ zIndex: 999, position: 'absolute', top: '-24px', right: '-10px', width: '200px', height: '50px', backgroundColor: '#CDAC6E', transform: 'rotate(15deg)', opacity: '.8' }} />
+                    <div style={{ zIndex: 999, position: 'absolute', bottom: '-24px', left: '-10px', width: '200px', height: '50px', backgroundColor: '#CDAC6E', transform: 'rotate(15deg)', opacity: '.8' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '550px', height: '550px', position: 'absolute' }}>
+                      <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
+                      <img style={{ flex: 1, height: '225px', objectFit: 'cover' }} src={URL.createObjectURL(images[0])} alt='' />
+                      <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
+                      <img style={{ flex: 1, height: '225px', objectFit: 'cover' }} src={URL.createObjectURL(images[1])} alt='' />
+                      <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
+                    </div>
                   </div>
-                </div>
-                <Button variant='contained'>DOWNLOAD</Button>
-              </Box>
-            </Modal>
+                  <Button variant='contained'>DOWNLOAD</Button>
+                </Box>
+              </Modal>
+            }
           </>
         }
       </Container>
