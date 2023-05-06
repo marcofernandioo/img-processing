@@ -1,3 +1,4 @@
+import { createRef } from 'react';
 import { Typography } from "@mui/material"
 import { Box, Stack } from "@mui/system"
 
@@ -10,9 +11,11 @@ const numberFormatter = amount => {
   return formatter.format(amount).toString().slice(0, -3)
 }
 
+export const imgRef = createRef(null);
+
 const HeadPreview = ({ image, mataAngin, data }) => {
   return (
-    <div style={{
+    <div ref = {imgRef} style={{
       display: 'flex',
       flexDirection: 'column',
       marginBottom: '20px',

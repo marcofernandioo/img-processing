@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, createRef, useEffect } from 'react'
 import { Container } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Button, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Modal, Select, Stack, Tab, TextField, TextareaAutosize, Typography } from '@mui/material'
 import HeadPreview from '../components/HeadPreview'
+
+import { useScreenshot, createFileName } from 'use-react-screenshot';
+import {imgRef} from '../components/HeadPreview';
 
 const Home = () => {
   const [data, setData] = useState({
@@ -18,6 +21,10 @@ const Home = () => {
   const [tab, setTab] = useState('manual')
   const [mataAngin, setMataAngin] = useState('utara')
   const [image, setImage] = useState()
+  const [downloadedImage, downloadImage] = useScreenshot({
+    type: 'image/jpg',
+    quality: 1.0
+  });
 
   const handleChangeData = e => {
     const name = e.target.name
@@ -28,6 +35,26 @@ const Home = () => {
   const handleChangeTab = (e, newVal) => {
     setTab(newVal)
   }
+
+  const handleDownload = () => {
+    downloadImage(imgRef.current)
+    .then((downloadedImage) => {
+      download(downloadedImage)
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    // console.log(downloadImage(imgRef.current));
+  }
+
+
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
 
   const handleChangeMataAngin = e => {
     setMataAngin(e.target.value)
@@ -145,7 +172,7 @@ const Home = () => {
               }}>
                 <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
                 <HeadPreview image={image} mataAngin={mataAngin} data={data} />
-                <Button variant='contained'>DOWNLOAD</Button>
+                <Button variant='contained' onClick={handleDownload}>DOWNLOAD</Button>
               </Box>
             </Modal>
           </>
