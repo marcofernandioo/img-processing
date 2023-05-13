@@ -1,9 +1,9 @@
-import { useState, createRef } from 'react'
+import { useState, createRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Box, Button, Container, IconButton, ImageList, ImageListItem, Stack, Typography, Modal } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close'
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-
+import { toJpeg } from 'html-to-image'
 
 
 const Body = () => {
@@ -15,6 +15,20 @@ const Body = () => {
     quality: 1.0
   });
   const imgRef = createRef(null);
+
+  const takeScreenShot = async (node) => {
+    const dataURI = await toJpeg(node);
+    return dataURI;
+  };
+
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
+  const downloadScreenshot = () => takeScreenShot(imgRef.current).then(download);
 
   const handleOpenModal = () => {
     setOpenModal(true)
@@ -43,22 +57,22 @@ const Body = () => {
     setOpenModal(true)
   }
 
-  const handleDownload = () => {
-    downloadImage(imgRef.current)
-    .then((downloadedImage) => {
-      download(downloadedImage)
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
+  // const handleDownload = () => {
+  //   downloadImage(imgRef.current)
+  //   .then((downloadedImage) => {
+  //     download(downloadedImage)
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   })
+  // }
 
-  const download = (image, { name = "img", extension = "jpg" } = {}) => {
-    const a = document.createElement("a");
-    a.href = image;
-    a.download = createFileName(extension, name);
-    a.click();
-  };
+  // const download = (image, { name = "img", extension = "jpg" } = {}) => {
+  //   const a = document.createElement("a");
+  //   a.href = image;
+  //   a.download = createFileName(extension, name);
+  //   a.click();
+  // };
 
   return (
     <>
@@ -142,7 +156,7 @@ const Body = () => {
                   overflow: 'auto'
                 }}>
                   <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
-                  <div ref = {imgRef} style={{
+                  <div ref={imgRef} style={{
                     flexDirection: 'column',
                     marginBottom: '20px',
                     width: '550px',
@@ -163,7 +177,7 @@ const Body = () => {
                       <div style={{ width: '100%', height: '3px', backgroundColor: '#AB9975' }} />
                     </div>
                   </div>
-                  <Button variant='contained' onClick={handleDownload} >DOWNLOAD</Button>
+                  <Button variant='contained' onClick={downloadScreenshot} >DOWNLOAD</Button>
                 </Box>
               </Modal>
             }
