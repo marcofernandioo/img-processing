@@ -1,3 +1,14 @@
+/*
+  @component
+  @param {image} image; The image of the house.
+  @param {string} mataAngin; 
+  @param {Object} data; The specification of the house. 
+
+  This component previews to the user what their downloaded image will look like.
+  Used in the Head page, after the user clicked the 'Preview' button,
+  and before the user downloads the image.
+*/
+
 import { createRef } from 'react';
 import { Typography } from "@mui/material"
 import { Box, Stack } from "@mui/system"
