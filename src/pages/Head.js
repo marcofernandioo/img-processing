@@ -4,9 +4,13 @@ import { Link } from 'react-router-dom'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Button, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Modal, Select, Stack, Tab, TextField, TextareaAutosize, Typography } from '@mui/material'
 import HeadPreview from '../components/HeadPreview'
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-import {imgRef} from '../components/HeadPreview';
+import { imgRef } from '../components/HeadPreview';
 
 const Home = () => {
   const [data, setData] = useState({
@@ -29,7 +33,7 @@ const Home = () => {
   const handleChangeData = e => {
     const name = e.target.name
     const val = e.target.value
-    setData({...data, [name]: val})
+    setData({ ...data, [name]: val })
   }
 
   const handleChangeTab = (e, newVal) => {
@@ -38,12 +42,12 @@ const Home = () => {
 
   const handleDownload = () => {
     downloadImage(imgRef.current)
-    .then((downloadedImage) => {
-      download(downloadedImage)
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      .then((downloadedImage) => {
+        download(downloadedImage)
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
 
@@ -76,8 +80,8 @@ const Home = () => {
   return (
     <>
       <Stack direction='row' spacing={3} mb={5}>
-        <Link to='/'>Head</Link>
-        <Link to='/body'>Body</Link>
+        <Link to='/'>Head Page </Link>
+        <Link to='/body'>Body Page</Link>
       </Stack>
       <Container maxWidth='lg'>
         <Stack spacing={4} direction='row' mb={5}>
@@ -109,27 +113,38 @@ const Home = () => {
           </Box>
           <TabPanel p={0} value='manual'>
             <Stack mb={3} spacing={3}>
-              <TextField id="jenisPerumahan" name='jenisPerumahan' value={data.jenisPerumahan} label="Nama" variant="outlined" onChange={handleChangeData} />
-              <TextField id="alamat" name='alamat' label="Alamat" variant="outlined" value={data.alamat} onChange={handleChangeData} />
-              <TextField type='number' id="harga" name='harga' label="Harga" variant="outlined" value={data.harga} onChange={handleChangeData} />
+              <TextField id="jenisPerumahan" name='jenisPerumahan' value={data.jenisPerumahan} label="Name" variant="outlined" onChange={handleChangeData} />
+              <TextField id="alamat" name='alamat' label="Address" variant="outlined" value={data.alamat} onChange={handleChangeData} />
+              <TextField type='number' id="harga" name='harga' label="Price" variant="outlined" value={data.harga} onChange={handleChangeData} />
               <Typography variant="h6">
-                Spesifikasi
+                Property Specification
               </Typography>
-              <TextField id="ukuran" name='ukuran' value={data.ukuran} label="Ukuran" variant="outlined" onChange={handleChangeData} />
-              <TextField id="siapHuni" name='siapHuni' value={data.siapHuni} label="Siap Huni" variant="outlined" onChange={handleChangeData} />
-              <TextField id="tingkat" name='tingkat' value={data.tingkat} label="Jenis Perumahan" variant="outlined" onChange={handleChangeData} />
+              <TextField id="ukuran" name='ukuran' value={data.ukuran} label="Size" variant="outlined" onChange={handleChangeData} />
+              {/* <TextField id="siapHuni" name='siapHuni' value={data.siapHuni} label="Fully Furnished" variant="outlined" onChange={handleChangeData} /> */}
+              <FormLabel id="demo-radio-buttons-group-label">Furnishing Status</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="Fully Furnished"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel value="Fully Furnished" control={<Radio />} label="Fully Furnished" />
+                <FormControlLabel value="Partially Furnished" control={<Radio />} label="Partially Furnished" />
+                <FormControlLabel value="Unfurnished" control={<Radio />} label="Unfurnished" />
+              </RadioGroup>
+              <TextField id="tingkat" name='tingkat' value={data.tingkat} label="Property Type" variant="outlined" onChange={handleChangeData} />
               <FormControl>
-                <InputLabel>Arah Mata Angin</InputLabel>
+                <InputLabel>Direction</InputLabel>
                 <Select
                   id="demo-simple-select"
                   value={mataAngin}
-                  label="Arah Mata Angin"
+                  label="Direction"
                   onChange={handleChangeMataAngin}
-                > 
-                  <MenuItem value={'utara'}>Utara</MenuItem>
-                  <MenuItem value={'barat'}>Barat</MenuItem>
-                  <MenuItem value={'selatan'}>Selatan</MenuItem>
-                  <MenuItem value={'timur'}>Timur</MenuItem>
+                >
+                  <MenuItem value={'utara'}>North</MenuItem>
+                  <MenuItem value={'timur'}>East</MenuItem>
+                  <MenuItem value={'selatan'}>South</MenuItem>
+                  <MenuItem value={'barat'}>West</MenuItem>
                 </Select>
               </FormControl>
             </Stack>
@@ -149,7 +164,7 @@ const Home = () => {
               onClose={handleCloseModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
-              sx={{ display: 'flex', alignItems: 'center', padding: '20px'}}
+              sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}
             >
               <Box sx={{
                 backgroundColor: '#fff',

@@ -77,8 +77,8 @@ const Body = () => {
   return (
     <>
       <Stack direction='row' spacing={3} mb={5}>
-        <Link to='/'>Head</Link>
-        <Link to='/body'>Body</Link>
+        <Link to='/'>Head Page</Link>
+        <Link to='/body'>Body Page</Link>
       </Stack>
       <Container maxWidth='lg'>
         <Stack spacing={4} direction='row' mb={5}>
@@ -97,6 +97,7 @@ const Body = () => {
               hidden
             />
           </Button>
+          
           {
             images.length > 0 &&
             <Stack spacing={2}>
