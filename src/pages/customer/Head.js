@@ -3,14 +3,14 @@ import { Container } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Button, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Modal, Select, Stack, Tab, TextField, TextareaAutosize, Typography } from '@mui/material'
-import HeadPreview from '../components/HeadPreview'
+import HeadPreview from '../../components/HeadPreview'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-import { imgRef } from '../components/HeadPreview';
+import { imgRef } from '../../components/HeadPreview';
 
 const Home = () => {
   const [data, setData] = useState({
