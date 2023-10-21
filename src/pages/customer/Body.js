@@ -77,7 +77,7 @@ const Body = () => {
   return (
     <>
       <Stack direction='row' spacing={3} mb={5}>
-        <Link to='/'>Head Page</Link>
+        <Link to='/head'>Head Page</Link>
         <Link to='/body'>Body Page</Link>
       </Stack>
       <Container maxWidth='lg'>
