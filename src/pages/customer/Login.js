@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-// import axios from 'axios';
 import * as api from '../../api' 
-import { redirect } from 'react-router-dom';
 
 const Login = () => {
     const [user, setUser] = useState({
@@ -23,7 +21,7 @@ const Login = () => {
             return
         }
 
-        const res = await api.login(email,pw);
+        const res = await api.login(email,pw,'customer');
         if (res.error) {
             alert(`${res.error}`);
             return;

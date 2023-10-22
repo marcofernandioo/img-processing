@@ -1,16 +1,12 @@
-// import axios from 'axios';
-// require('dotenv').config();
-
-// const api = process.env.API;
 const api = 'http://localhost:8080'
 
-export function login(email, password) {
+export function login(email, password, role) {
   return fetch(`${api}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, role }),
   })
     .then(res => {
       return res.json();
