@@ -6,17 +6,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Head from './pages/customer/Head'
 import Body from './pages/customer/Body'
 import ProtectedRoute from './pages/ProtectedRoute'
-import Login from './pages/customer/Login';
+import CustomerLogin from './pages/customer/Login';
 
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<Login />} />
+          <Route path='/' element={<CustomerLogin />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/head" element = {<Head />}/>
-            <Route path="/body" element = {<Body />}/>
+            <Route path="/head" element={<Head />} />
+            <Route path="/body" element={<Body />} />
           </Route>
         </Routes>
       </Router>

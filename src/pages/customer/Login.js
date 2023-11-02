@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import axios from 'axios';
 import * as api from '../../api' 
 
 const Login = () => {
@@ -8,23 +7,31 @@ const Login = () => {
         password: ''
     });
 
-    const handleLogin = (email, pw) => {
-        // 1. Sanitize & validate email pw.
-        // 2. Call the Login API.
-        const res = api.login(email,pw);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUser({
+          ...user,
+          [name]: value
+        });
+      };
 
-        if (res.status !== 200){
-            alert(res.error);
-            return;
+    const handleLogin = async (email, pw) => {
+        if (!email || !pw) {
+            alert("Enter a valid email and password")
+            return
         }
 
-        // 3. Set JWT in cookie.
+        const res = await api.login(email,pw,'customer');
+        if (res.error) {
+            alert(`${res.error}`);
+            return;
+        }
+        
         const accessToken = res.data.accessToken;
         const refreshToken = res.data.refreshToken;
         document.cookie = `accessToken=${accessToken}; refreshToken=${refreshToken}; path=/; expires=${new Date(Date.now() + 604800000).toUTCString()}`; // Token expires in 7 days.
 
-        // 4. Redirect to 'Body' page.
-        
+        window.location.href = '/head';
     }
 
 
@@ -42,13 +49,11 @@ const Login = () => {
                             account to enjoy all the services without any ads for free!</p>
                     </div>
                     <div class="space-y-4">
-                        <input type="text" placeholder="Email Addres" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
-                        <input type="text" placeholder="Password" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
+                        <input name="email" onChange={(e) => {handleInputChange(e)}} type="text" placeholder="Email Addres" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
+                        <input name="password" onChange={(e) => {handleInputChange(e)}} type="text" placeholder="Password" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
                     </div>
                     <div class="text-center mt-6">
                         <button class="py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl" onClick = {() => handleLogin(user.email, user.password)}>Log In</button>
-                        <p class="mt-4 text-sm">Do Not Have an Account? <span class="underline cursor-pointer"> here.</span>
-                        </p>
                     </div>
                 </div>
                 <div class="w-40 h-40 absolute bg-purple-300 rounded-full top-0 right-12 hidden md:block"></div>

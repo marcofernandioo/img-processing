@@ -1,4 +1,4 @@
-import { useState, createRef, useEffect } from 'react'
+import React, { useState, createRef, useEffect } from 'react'
 import { Container } from '@mui/system'
 import { Link } from 'react-router-dom'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -63,6 +63,11 @@ const Home = () => {
     setMataAngin(e.target.value)
   }
 
+  const imgURL = React.useMemo(() => {
+    if (image)
+      return URL.createObjectURL(image);
+  }, [image]);
+
   const handleChangeImage = e => {
     const target = e.target
     const files = [...target.files]
@@ -77,10 +82,15 @@ const Home = () => {
     setOpenModal(false)
   }
 
+  const handleLogout = () => {
+    document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // 'delete' cookie.
+    window.location.href = "/";
+  }
+
   return (
     <>
       <Stack direction='row' spacing={3} mb={5}>
-        <Link to='/'>Head Page </Link>
+        <Link to='/head'>Head Page </Link>
         <Link to='/body'>Body Page</Link>
       </Stack>
       <Container maxWidth='lg'>
@@ -98,10 +108,17 @@ const Home = () => {
               onChange={handleChangeImage}
               hidden
             />
+          </Button><Button
+            variant="contained"
+            component="label"
+            style={{ height: '100%' }}
+            onClick = {() => handleLogout()}
+          >
+            Logout
           </Button>
           {
             image &&
-            <div style={{ width: '300px', height: '300px', backgroundImage: `url(${URL.createObjectURL(image)})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
+            <div style={{ width: '300px', height: '300px', backgroundImage: `url(${imgURL})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
           }
         </Stack>
         <TabContext value={tab}>
