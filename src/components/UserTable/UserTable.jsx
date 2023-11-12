@@ -1,5 +1,19 @@
+
+
+import { useState } from 'react';
 import './UserTable.css'
+import { useEffect } from 'react';
+import EditUserForm from '../EditUserForm/EditUserForm';
 export default function UserTable(){
+    const [editFormActive, setEditFormActive] = useState(false);
+
+    const handleEditFormBtn = () => {
+      // Toggle the addFormActive state
+      setEditFormActive((prevActive) => !prevActive);
+    };
+    useEffect(() => {
+      console.log("edit sukses", editFormActive);
+    }, [editFormActive]); // Include addFormActive in the dependency array
     return (
         <table className="user-table">
                 <tr>
@@ -17,7 +31,7 @@ export default function UserTable(){
                     <td>Chad</td>
                     <td>Company of Chadwicks</td>
                     <td className='action-cell'>
-                        <button className="edit-btn">Edit</button>
+                        <button className="edit-btn" onClick={handleEditFormBtn}>Edit</button>
                         <button className="delete-btn">Delete</button>
                     </td>
                 </tr>
@@ -43,7 +57,7 @@ export default function UserTable(){
                         <button className="delete-btn">Delete</button>
                     </td>
                 </tr>
-                
+                <EditUserForm isActive={editFormActive} />
         </table>
         
     )

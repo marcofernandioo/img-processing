@@ -1,0 +1,24 @@
+.new-edit-admin-form {
+    display:flex;
+    background-color: white;
+    z-index: 2;
+    position:fixed;
+    padding : 50px;
+    flex-direction: column;
+}
+
+.new-edit-admin-popup.active{
+    display:flex;
+}
+.new-edit-admin-popup {
+    background-color: rgba(0, 0, 0, 0.4);
+    position:fixed;
+    width:100vw;
+    height:100vh;
+    top:0;
+    left:0;
+    z-index:1;
+    display:none;
+    justify-content: center;
+    align-items:center;
+}

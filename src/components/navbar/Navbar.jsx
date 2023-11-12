@@ -6,8 +6,8 @@ export default function Navbar(){
             <a>Welcome X</a>
             </div>
             <div className="right-navbar">
-            <a class="btn" href=""><i class="fa fa-bell fa-lg"></i></a>
-            <a class="btn-img" href=""><img src="https://i.kym-cdn.com/entries/icons/original/000/002/691/sings.jpg"></img></a>
+            <a className="btn" href=""><i className="fa fa-bell fa-lg"></i></a>
+            <a className="btn-img" href=""><img src="https://i.kym-cdn.com/entries/icons/original/000/002/691/sings.jpg"></img></a>
             </div>
         </div>
     )

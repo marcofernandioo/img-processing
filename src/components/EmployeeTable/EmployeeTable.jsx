@@ -1,5 +1,17 @@
+import { useEffect } from 'react';
 import './EmployeeTable.css'
+import { useState } from 'react';
+import EditAdminForm from '../EditAdminForm/EditAdminForm';
 export default function EmployeeTable(){
+    const [editFormActive, setEditFormActive] = useState(false);
+
+  const handleEditFormBtn = () => {
+    // Toggle the addFormActive state
+    setEditFormActive((prevActive) => !prevActive);
+  };
+  useEffect(() => {
+    console.log("edit sukses", editFormActive);
+  }, [editFormActive]); // Include addFormActive in the dependency array
     return (
         <table className="employee-table">
                 <tr>
@@ -15,7 +27,7 @@ export default function EmployeeTable(){
                     <td>0895411041801</td>
                     <td>Slave</td>
                     <td className='action-cell'>
-                        <button className="edit-btn">Edit</button>
+                        <button className="edit-btn" onClick={handleEditFormBtn}>Edit</button>
                         <button className="delete-btn">Delete</button>
                     </td>
                 </tr>
@@ -39,7 +51,7 @@ export default function EmployeeTable(){
                         <button className="delete-btn">Delete</button>
                     </td>
                 </tr>
-                
+                <EditAdminForm isActive={editFormActive} />
         </table>
         
     )

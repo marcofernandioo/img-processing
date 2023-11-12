@@ -56,3 +56,13 @@
     font-size:20px;
     margin-bottom:10px;
 }
+
+.header-page{
+    display:flex;
+    justify-content: space-between;
+    
+}
+.add-admin{
+    display: flex;
+    align-items: center;
+}
