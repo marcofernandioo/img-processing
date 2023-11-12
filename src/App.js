@@ -7,17 +7,24 @@ import Head from './pages/customer/Head'
 import Body from './pages/customer/Body'
 import ProtectedRoute from './pages/ProtectedRoute'
 import CustomerLogin from './pages/customer/Login';
+import Dashboard from './pages/admin/Dashboard'
+import AdminPage from './pages/admin/AdminPage'
+import "./App.css"
+import UserPage from './pages/admin/UserPage'
 
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
+          
           <Route path='/' element={<CustomerLogin />} />
-          <Route element={<ProtectedRoute />}>
+          <Route path='/admin' element={<AdminPage />} />
+          <Route path= '/user' element={<UserPage />} />
+          {/* <Route element={<ProtectedRoute />}>
             <Route path="/head" element={<Head />} />
-            <Route path="/body" element={<Body />} />
-          </Route>
+            <Route path="/body" element={<Body />} /> 
+          </Route> */}
         </Routes>
       </Router>
     </>

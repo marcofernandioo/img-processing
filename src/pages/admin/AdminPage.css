@@ -1,0 +1,58 @@
+.Adminpage{
+    display: grid;
+    flex-direction:column;
+    width:100vw;
+    min-height:100vh;
+    top: 0;
+    left: 0;
+    grid-template-columns: 15vw 85vw;
+    grid-template-rows: 64px auto;
+    grid-template-areas: 
+    "sidebar navbar"
+    "sidebar content";
+}
+
+.Adminpage .content {
+    grid-area: content;
+    padding:20px 50px;
+    display:flex;
+    flex-direction:column;
+    
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.dropdown-item {
+    height: 16px;
+    font-weight: 700;
+    padding: 10px 12px;
+    text-decoration: none;
+    color:rgb(44, 190, 201);
+}
+.dropdown-item:hover {
+    background-color: rgb(204, 204, 204);
+    color:rgb(31, 134, 141);
+}
+#admin-text{
+    color:rgb(44, 190, 201);
+    font-weight: 700;
+    font-size:20px;
+    margin-bottom:10px;
+}
