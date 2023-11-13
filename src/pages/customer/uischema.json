@@ -1,0 +1,38 @@
+{
+    "type": "VerticalLayout",
+    "elements": [
+        {
+            "type": "Control",
+            "scope": "#/properties/jenisperumahan"
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/alamat"
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/harga"
+        },
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/panjang"
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/lebar"
+                }
+            ]
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/tingkat"
+        },
+        {
+            "type": "Control",
+            "scope": "#/properties/arahmataangin"
+        }
+    ]
+}
