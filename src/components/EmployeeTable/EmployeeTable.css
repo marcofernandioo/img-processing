@@ -1,0 +1,89 @@
+.employee-table {
+    background-color: beige;
+    padding:10px;
+    margin-top:15px;
+
+}   
+.employee-table th {
+    border-bottom: solid black 2px;
+}
+ 
+         
+.edit-btn {
+    background-image: linear-gradient(to right, #4CB8C4 0%, #3CD3AD  51%, #4CB8C4  100%);
+    padding: 5px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    border:none;
+    display: block;
+
+    }
+
+.edit-btn:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+    
+.delete-btn {
+    background-image: linear-gradient(to right, #e52d27 0%, #b31217  51%, #e52d27  100%);
+    padding: 3px 10px 3px 10px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    border:none;
+    display: block;
+}
+
+.delete-btn:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+
+.profile-pict{
+    border-radius:50%;
+    width:35px;
+    height: 35px;
+}
+.action-cell{
+    display:flex;
+    justify-content:center;
+    gap: 50px;
+    padding:10px 0;
+}
+
+
+.new-admin-form {
+    display:flex;
+    background-color: white;
+    z-index: 2;
+    position:fixed;
+    padding : 50px;
+    flex-direction: column;
+}
+
+.new-admin-popup.active{
+    display:flex;
+}
+.new-admin-popup {
+    background-color: rgba(0, 0, 0, 0.4);
+    position:fixed;
+    width:100vw;
+    height:100vh;
+    top:0;
+    left:0;
+    z-index:1;
+    display:none;
+    justify-content: center;
+    align-items:center;
+}

@@ -1,0 +1,45 @@
+.NavBar{
+    display: flex;
+    flex-direction:row;
+    background-color: rgb(245, 245, 245);
+    height:64px;
+    display:flex;
+    grid-area: navbar;
+    padding-left:20px;
+    justify-content: space-between;
+
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+
+.NavBar > a:first {
+    margin-left: 100px;
+}
+
+.left-navbar{
+    padding-top: 20px;
+}
+
+.right-navbar{
+    margin-right:20px;
+    display:flex;
+    gap:10px;
+    align-items: center;
+}
+
+.btn{
+    margin-right:5px;
+    border-radius:50%;
+}
+
+.btn-img {
+    border:none;
+    border-radius:30px;
+
+}
+
+.btn-img img{
+    border-radius:50px;
+    width:32px;
+    height: 32px;
+    background-color:transparent;
+}
