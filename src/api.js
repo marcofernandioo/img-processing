@@ -1,4 +1,5 @@
-const api = 'http://localhost:8080'
+// const api = 'http://localhost:8080'
+const api = 'https://jade-muddy-leopard.cyclic.app';
 
 export function login(email, password, role) {
   return fetch(`${api}/auth/login`, {

@@ -6,22 +6,26 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import Backdrop from '@mui/material/Backdrop';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import * as api from '../../api'
 import { bgGradient } from '../../themes/css';
+import Iconify from '../../components/Iconify';
 
 const Login = () => {
     const [user, setUser] = useState({
         email: '',
         password: ''
     });
-    const [showPassword, setShowPassword] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
+    const [isLoginLoading, setIsLoginLoading] = useState(false);
 
     const theme = useTheme();
 
@@ -36,12 +40,15 @@ const Login = () => {
     const handleLogin = async (email, pw) => {
         if (!email || !pw) {
             alert("Enter a valid email and password")
+            setIsLoginLoading(false);
             return
         }
 
+        setIsLoginLoading(true);
         const res = await api.login(email, pw, 'customer');
         if (res.error) {
             alert(`${res.error}`);
+            setIsLoginLoading(false);
             return;
         }
 
@@ -49,17 +56,19 @@ const Login = () => {
         const refreshToken = res.data.refreshToken;
         document.cookie = `accessToken=${accessToken}; refreshToken=${refreshToken}; path=/; expires=${new Date(Date.now() + 604800000).toUTCString()}`; // Token expires in 7 days.
 
+        setIsLoginLoading(false);
         window.location.href = '/head';
 
-        setUser({
-            email: '',
-            password: ''
-        })
     }
-
 
     return (
         <>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={isLoginLoading}
+            >
+                <CircularProgress />
+            </Backdrop>
             <Box
                 sx={{
                     ...bgGradient({
@@ -77,7 +86,7 @@ const Login = () => {
                         }}
                     >
                         <Typography variant="h4">Welcome to efka</Typography>
-                        <Stack spacing={3} sx={{my: 3}}>
+                        <Stack spacing={3} sx={{ my: 3 }}>
                             <TextField
                                 name="email"
                                 label="Email address"
@@ -91,18 +100,13 @@ const Login = () => {
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                                                {/* <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} /> */}
+                                                <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                                             </IconButton>
                                         </InputAdornment>
                                     ),
                                 }}
                                 onChange={(e) => handleInputChange(e)}
                             />
-                        </Stack>
-                        <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-                            <Link variant="subtitle2" underline="hover">
-                                Forgot password?
-                            </Link>
                         </Stack>
                         <Divider sx={{ my: 3 }}>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
