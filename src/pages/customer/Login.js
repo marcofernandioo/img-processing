@@ -1,67 +1,139 @@
-import React, {useState} from 'react';
-import * as api from '../../api' 
+import React, { useState } from 'react';
+
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import Card from '@mui/material/Card';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Backdrop from '@mui/material/Backdrop';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { alpha, useTheme } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
+import InputAdornment from '@mui/material/InputAdornment';
+
+import * as api from '../../api'
+import { bgGradient } from '../../themes/css';
+import Iconify from '../../components/Iconify';
 
 const Login = () => {
     const [user, setUser] = useState({
         email: '',
         password: ''
     });
+    const [showPassword, setShowPassword] = useState(false);
+    const [isLoginLoading, setIsLoginLoading] = useState(false);
+
+    const theme = useTheme();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({
-          ...user,
-          [name]: value
+            ...user,
+            [name]: value
         });
-      };
+    };
 
     const handleLogin = async (email, pw) => {
         if (!email || !pw) {
             alert("Enter a valid email and password")
+            setIsLoginLoading(false);
             return
         }
 
-        const res = await api.login(email,pw,'customer');
+        setIsLoginLoading(true);
+        const res = await api.login(email, pw, 'customer');
         if (res.error) {
             alert(`${res.error}`);
+            setIsLoginLoading(false);
             return;
         }
-        
+
         const accessToken = res.data.accessToken;
         const refreshToken = res.data.refreshToken;
         document.cookie = `accessToken=${accessToken}; refreshToken=${refreshToken}; path=/; expires=${new Date(Date.now() + 604800000).toUTCString()}`; // Token expires in 7 days.
 
+        setIsLoginLoading(false);
         window.location.href = '/head';
+
     }
 
-
     return (
-        <div>
-            <div class="min-h-screen bg-purple-400 flex justify-center items-center">
-                <div class="absolute w-60 h-60 rounded-xl bg-purple-300 -top-5 -left-16 z-0 transform rotate-45 hidden md:block">
-                </div>
-                <div class="absolute w-48 h-48 rounded-xl bg-purple-300 -bottom-6 -right-10 transform rotate-12 hidden md:block">
-                </div>
-                <div class="py-12 px-12 bg-white rounded-2xl shadow-xl z-20">
-                    <div>
-                        <h1 class="text-3xl font-bold text-center mb-4 cursor-pointer">Welcome Back!</h1>
-                        <p class="w-80 text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide cursor-pointer">Create an
-                            account to enjoy all the services without any ads for free!</p>
-                    </div>
-                    <div class="space-y-4">
-                        <input name="email" onChange={(e) => {handleInputChange(e)}} type="text" placeholder="Email Addres" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
-                        <input name="password" onChange={(e) => {handleInputChange(e)}} type="text" placeholder="Password" class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
-                    </div>
-                    <div class="text-center mt-6">
-                        <button class="py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl" onClick = {() => handleLogin(user.email, user.password)}>Log In</button>
-                    </div>
-                </div>
-                <div class="w-40 h-40 absolute bg-purple-300 rounded-full top-0 right-12 hidden md:block"></div>
-                <div
-                    class="w-20 h-40 absolute bg-purple-300 rounded-full bottom-20 left-10 transform rotate-45 hidden md:block">
-                </div>
-            </div>
-        </div>
+        <>
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={isLoginLoading}
+            >
+                <CircularProgress />
+            </Backdrop>
+            <Box
+                sx={{
+                    ...bgGradient({
+                        color: alpha(theme.palette.background.default, 0.9),
+                    }),
+                    height: 1,
+                }}
+            >
+                <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+                    <Card
+                        sx={{
+                            p: 5,
+                            width: 1,
+                            maxWidth: 420,
+                        }}
+                    >
+                        <Typography variant="h4">Welcome to efka</Typography>
+                        <Stack spacing={3} sx={{ my: 3 }}>
+                            <TextField
+                                name="email"
+                                label="Email address"
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                            <TextField
+                                name="password"
+                                label="Password"
+                                type={showPassword ? 'text' : 'password'}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                                <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                onChange={(e) => handleInputChange(e)}
+                            />
+                        </Stack>
+                        <Divider sx={{ my: 3 }}>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                OR
+                            </Typography>
+                        </Divider>
+                        <Typography variant="body2" sx={{ mb: 2 }}>
+                            Don’t have an account?
+                            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+                                Register now
+                            </Link>
+                        </Typography>
+                        <Button
+                            fullWidth
+                            size="large"
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleLogin(user.email, user.password)}
+                        >
+                            Login
+                        </Button>
+                    </Card>
+                </Stack>
+            </Box>
+        </>
+
     );
 };
 
