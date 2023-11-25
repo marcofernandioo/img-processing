@@ -1,10 +1,10 @@
-.user-table {
+.customer-table {
     background-color: beige;
     padding:10px;
     margin-top:15px;
 
 }   
-.user-table th {
+.customer-table th {
     border-bottom: solid black 2px;
 }
  

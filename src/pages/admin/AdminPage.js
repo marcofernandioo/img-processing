@@ -33,8 +33,8 @@ export default function AdminPage() {
               <a href="admin" className="dropdown-item">
                 Admin
               </a>
-              <a href="user" className="dropdown-item">
-                User
+              <a href="customer" className="dropdown-item">
+                Customer
               </a>
             </div>
           </div>

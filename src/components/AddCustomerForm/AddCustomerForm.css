@@ -1,4 +1,4 @@
-.new-user-form {
+.new-customer-form {
     display:flex;
     background-color: white;
     z-index: 2;
@@ -7,10 +7,10 @@
     flex-direction: column;
 }
 
-.new-user-popup.active{
+.new-customer-popup.active{
     display:flex;
 }
-.new-user-popup {
+.new-customer-popup {
     background-color: rgba(0, 0, 0, 0.4);
     position:fixed;
     width:100vw;

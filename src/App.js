@@ -10,7 +10,7 @@ import CustomerLogin from './pages/customer/Login';
 import Dashboard from './pages/admin/Dashboard'
 import AdminPage from './pages/admin/AdminPage'
 import "./App.css"
-import UserPage from './pages/admin/UserPage'
+import CustomerPage from './pages/admin/CustomerPage'
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
           
           <Route path='/' element={<CustomerLogin />} />
           <Route path='/admin' element={<AdminPage />} />
-          <Route path= '/user' element={<UserPage />} />
+          <Route path= '/customer' element={<CustomerPage />} />
           {/* <Route element={<ProtectedRoute />}>
             <Route path="/head" element={<Head />} />
             <Route path="/body" element={<Body />} /> 

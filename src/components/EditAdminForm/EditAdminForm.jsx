@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './EditAdminForm.css';
 
-export default function EditAdminForm({ isActive }) {
+export default function EditAdminForm({ isActive, adminData }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -10,7 +10,15 @@ export default function EditAdminForm({ isActive }) {
 
   useEffect(() => {
     setActive(isActive);
-  }, [isActive]);
+
+    // Set the form fields based on the provided adminData
+    if (adminData) {
+      setName(adminData.name || '');
+      setEmail(adminData.email || '');
+      setPhone(adminData.telephone || '');
+      setPosition(adminData.position || '');
+    }
+  }, [isActive, adminData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,19 +45,18 @@ export default function EditAdminForm({ isActive }) {
   };
 
   return (
-    <div className={`new-edit-admin-popup ${(active) ? "active" : ""}`} onClick={handlePopupClick}>
+    <div className={`new-edit-admin-popup ${(active) ? 'active' : ''}`} onClick={handlePopupClick}>
       <div className="new-edit-admin-form" onClick={(e) => e.stopPropagation()}>
-        {/* Prevent propagation to the parent div (new-edit-popup) */}
         <h2>Edit The Admin</h2>
         <form className="add-form" onSubmit={handleSubmit}>
-          <label htmlFor="name">Name:</label><br></br>
-          <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} /><br></br>
-          <label htmlFor="email">Email:</label><br></br>
-          <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} /><br></br>
-          <label htmlFor="phone">Telephone:</label><br></br>
-          <input type="text" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} /><br></br>
-          <label htmlFor="position">Position:</label><br></br>
-          <input type="text" id="position" name="position" value={position} onChange={(e) => setPosition(e.target.value)} /><br></br>
+          <label htmlFor="name">Name:</label><br />
+          <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} /><br />
+          <label htmlFor="email">Email:</label><br />
+          <input type="text" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
+          <label htmlFor="phone">Telephone:</label><br />
+          <input type="text" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} /><br />
+          <label htmlFor="position">Position:</label><br />
+          <input type="text" id="position" name="position" value={position} onChange={(e) => setPosition(e.target.value)} /><br />
           <input type="submit" value="Submit" />
         </form>
       </div>

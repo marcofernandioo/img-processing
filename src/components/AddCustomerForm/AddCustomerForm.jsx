@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import './AddUserForm.css';
+import './AddCustomerForm.css';
 
-export default function AddUserForm({ isActive }) {
+export default function AddCustomerForm({ isActive }) {
 const [name, setName] = useState("");
 const [email, setEmail] = useState("");
 const [phone, setPhone] = useState("");
@@ -43,10 +43,10 @@ const [active, setActive] = useState(isActive);
   };
 
   return (
-    <div className={`new-user-popup ${(active) ? "active" : ""}`} onClick={handlePopupClick}>
-      <div className="new-user-form" onClick={(e) => e.stopPropagation()}>
-        {/* Prevent propagation to the parent div (new-user-popup) */}
-        <h2>Add New User</h2>
+    <div className={`new-customer-popup ${(active) ? "active" : ""}`} onClick={handlePopupClick}>
+      <div className="new-customer-form" onClick={(e) => e.stopPropagation()}>
+        {/* Prevent propagation to the parent div (new-customer-popup) */}
+        <h2>Add New Customer</h2>
         <form className="add-form" onSubmit={handleSubmit}>
             <label htmlFor="name">Name:</label><br></br>
             <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} /><br></br>

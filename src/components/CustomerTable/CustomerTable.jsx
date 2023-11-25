@@ -1,10 +1,10 @@
 
 
 import { useState } from 'react';
-import './UserTable.css'
+import './CustomerTable.css'
 import { useEffect } from 'react';
-import EditUserForm from '../EditUserForm/EditUserForm';
-export default function UserTable(){
+import EditCustomerForm from '../EditCustomerForm/EditCustomerForm';
+export default function CustomerTable(){
     const [editFormActive, setEditFormActive] = useState(false);
 
     const handleEditFormBtn = () => {
@@ -15,7 +15,7 @@ export default function UserTable(){
       console.log("edit sukses", editFormActive);
     }, [editFormActive]); // Include addFormActive in the dependency array
     return (
-        <table className="user-table">
+        <table className="customer-table">
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
@@ -57,7 +57,7 @@ export default function UserTable(){
                         <button className="delete-btn">Delete</button>
                     </td>
                 </tr>
-                <EditUserForm isActive={editFormActive} />
+                <EditCustomerForm isActive={editFormActive} />
         </table>
         
     )

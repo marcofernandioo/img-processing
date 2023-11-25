@@ -1,4 +1,4 @@
-.Userpage{
+.Customerpage{
     display: grid;
     flex-direction:column;
     width:100vw;
@@ -12,14 +12,14 @@
     "sidebar content";
 }
 
-.Userpage .content {
+.Customerpage .content {
     grid-area: content;
     padding:20px 50px;
     display:flex;
     flex-direction:column;
     
 }
-#user-text{
+#customer-text{
     color:rgb(44, 190, 201);
     font-weight: 700;
     font-size:20px;
@@ -55,7 +55,7 @@
     background-color: rgb(204, 204, 204);
     color:rgb(31, 134, 141);
 }
-#user-text{
+#customer-text{
     color:rgb(44, 190, 201);
     font-weight: 700;
     font-size:20px;
@@ -67,7 +67,7 @@
     justify-content: space-between;
     
 }
-.add-user{
+.add-customer{
     display: flex;
     align-items: center;
 }

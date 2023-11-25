@@ -5,7 +5,7 @@ export default function Sidebar(){
         <div className="SideBar">
             <a>Dashboard</a>
             <a href="Admin">Admin</a>
-            <a href="User">User</a>
+            <a href="Customer">Customer</a>
         </div>
     )
 }

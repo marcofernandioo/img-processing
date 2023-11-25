@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import './EditUserForm.css';
+import './EditCustomerForm.css';
 
-export default function EditUserForm({ isActive }) {
+export default function EditCustomerForm({ isActive }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,10 +37,10 @@ export default function EditUserForm({ isActive }) {
   };
 
   return (
-    <div className={`new-edit-user-popup ${(active) ? "active" : ""}`} onClick={handlePopupClick}>
-      <div className="new-edit-user-form" onClick={(e) => e.stopPropagation()}>
+    <div className={`new-edit-customer-popup ${(active) ? "active" : ""}`} onClick={handlePopupClick}>
+      <div className="new-edit-customer-form" onClick={(e) => e.stopPropagation()}>
         {/* Prevent propagation to the parent div (new-edit-popup) */}
-        <h2>Edit The User</h2>
+        <h2>Edit The Customer</h2>
         <form className="add-form" onSubmit={handleSubmit}>
             <label htmlFor="name">Name:</label><br></br>
             <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} /><br></br>

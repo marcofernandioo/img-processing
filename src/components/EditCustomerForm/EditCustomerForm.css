@@ -1,4 +1,4 @@
-.new-edit-user-form {
+.new-edit-customer-form {
     display:flex;
     background-color: white;
     z-index: 2;
@@ -7,10 +7,10 @@
     flex-direction: column;
 }
 
-.new-edit-user-popup.active{
+.new-edit-customer-popup.active{
     display:flex;
 }
-.new-edit-user-popup {
+.new-edit-customer-popup {
     background-color: rgba(0, 0, 0, 0.4);
     position:fixed;
     width:100vw;
