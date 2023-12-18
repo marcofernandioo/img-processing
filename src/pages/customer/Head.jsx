@@ -113,7 +113,6 @@ const Home = () => {
   ];
 
   const YourComponentWrapper = ({ componentAsString, ref }) => {
-    console.log(ReactHtmlParser(componentAsString));
     if (componentAsString)
       return <div ref={imgRef} >{ReactHtmlParser(componentAsString)}</div>;
   }
@@ -121,25 +120,24 @@ const Home = () => {
   const modifyAndRenderContent = () => {
     // let modifiedHtml = decodeURIComponent(decodedComponent); // Uncomment: Decode the component from the `image` hook.
     // Delete: Delete when we're sure about the html layout.
-    let modifiedHtml = decodeURIComponent(`%3Cdiv%20class%3D%22w-full%20sm%3Aw-1%2F2%20md%3Aw-1%2F3%20flex%20flex-col%20p-3%22%3E%0A%20%20%3Cdiv%0A%20%20%20%20class%3D%22bg-white%20rounded-lg%20shadow-lg%20overflow-hidden%20flex-1%20flex%20flex-col%22%0A%20%20%3E%0A%20%20%20%20%3Cimg%0A%20%20%20%20%20%20class%3D%22bg-cover%20h-48%22%0A%20%20%20%20%20%20src%3D%22https%3A%2F%2Fimages.unsplash.com%2Fphoto-1523978591478-c753949ff840%3Fw%3D900%22%0A%20%20%20%20%20%20alt%3D%22Image%20Description%22%0A%20%20%20%20%2F%3E%0A%20%20%20%20%3Cdiv%20class%3D%22p-4%20flex-1%20flex%20flex-col%22%20style%3D%22%22%3E%0A%20%20%20%20%20%20%3Cp%20id%3D%22jenisperumahan%22%20class%3D%22mb-4%20text-2xl%22%3EMy%20heading%3C%2Fp%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22mb-4%20text-grey-darker%20text-sm%20flex-1%22%3E%0A%20%20%20%20%20%20%20%20%3Cp%20id%3D%22harga%22%3ELorem%20ipsum%20dolor%20sit%20amet%2C%20consectetur%20adipisicing%20elit.%3C%2Fp%3E%0A%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%20%20%3Ca%0A%20%20%20%20%20%20%20%20href%3D%22%23%22%0A%20%20%20%20%20%20%20%20class%3D%22border-t%20border-grey-light%20pt-2%20text-xs%20text-grey%20hover%3Atext-red%20uppercase%20no-underline%20tracking-wide%22%0A%20%20%20%20%20%20%20%20style%3D%22%22%0A%20%20%20%20%20%20%20%20%3EDiull%3C%2Fa%0A%20%20%20%20%20%20%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fdiv%3E`)
+    
+    let modifiedHtml = decodeURIComponent(`%3Cdiv%0A%20%20style%3D%22%0A%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20background-color%3A%20%23fff%3B%0A%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20overflow%3A%20hidden%3B%0A%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20align-items%3A%20flex-start%3B%0A%20%20%20%20justify-content%3A%20flex-start%3B%0A%20%20%20%20gap%3A%2010px%3B%0A%20%20%20%20text-align%3A%20left%3B%0A%20%20%20%20font-size%3A%2070px%3B%0A%20%20%20%20object-fit%3A%20cover%3B%0A%20%20%20%20color%3A%20%23000%3B%0A%20%20%20%20font-family%3A%20%27Inter%27%3B%0A%20%20%22%0A%3E%0A%20%20%3Cimg%0A%20%20%20%20style%3D%22%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20object-fit%3A%20cover%3B%0A%20%20%20%20%20%20z-index%3A%200%3B%0A%20%20%20%20%22%0A%20%20%20%20alt%3D%22%22%0A%20%20%20%20src%3D%22C%3A%5CUsers%5CASUS%5CDownloads%5Cpexels-pixabay-53610.jpg%22%0A%20%20%2F%3E%0A%0A%20%20%3Cdiv%0A%20%20%20%20style%3D%22%0A%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20margin%3A%200%20!important%3B%0A%20%20%20%20%20%20top%3A%20559px%3B%0A%20%20%20%20%20%20left%3A%200px%3B%0A%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20height%3A%2050%25%3B%0A%20%20%20%20%20%20z-index%3A%201%3B%0A%20%20%20%20%22%0A%20%20%3E%0A%20%20%20%20%3Cdiv%0A%20%20%20%20%20%20style%3D%22%0A%20%20%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20%20%20height%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20top%3A%200%25%3B%0A%20%20%20%20%20%20%20%20right%3A%200%25%3B%0A%20%20%20%20%20%20%20%20bottom%3A%200%25%3B%0A%20%20%20%20%20%20%20%20left%3A%200%25%3B%0A%20%20%20%20%20%20%20%20background-color%3A%20rgba(255%2C%20166%2C%2032%2C%200.4)%3B%0A%20%20%20%20%20%20%22%0A%20%20%20%20%3E%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22alamat%22%20style%3D%22position%3A%20absolute%3B%20top%3A%209.98%25%3B%20left%3A%2036.98%25%22%3E%0A%20%20%20%20%20%20ALamat%20Rumah%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22jenisperumahan%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2033.78%25%3B%20left%3A%2035.21%25%22%3E%0A%20%20%20%20%20%20Jenis%20Perumahan%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22tingkat%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2057.58%25%3B%20left%3A%2026.56%25%22%3ETingkat%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22panjang%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2057.58%25%3B%20left%3A%2047.6%25%22%3Epanjang%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22arahmataangin%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2057.58%25%3B%20left%3A%2067.19%25%22%3E%0A%20%20%20%20%20%20arahmataangin%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fdiv%3E%0A`);
     const schema = dataschema.properties;
 
     Object.keys(schema).forEach((tagName) => {
-      const regex = new RegExp(`<p id="${tagName}"(?: class="[^"]*")?>.*?</p>`)
-      modifiedHtml = modifiedHtml.replace(regex, `<p id="${tagName}">${data[tagName]}</p>`)
+      const regex = new RegExp(`(<div[^>]*\\sid="${tagName}"[^>]*>)[\\s\\S]*?(<\/div>)`);
+      modifiedHtml = modifiedHtml.replace(regex, `$1${data[tagName]}$2`);
+      
+      console.log(modifiedHtml);
       console.log(`${tagName}`, data[tagName]);
-      console.log(`<p id="${tagName}">${data[tagName]}</p>`)
 
     })
 
     // Change the image src
-    // const imgRegex = new RegExp('<img[^>]*src="([^"]+)"[^>]*(?: class="[^"]*")?>');
     const imgRegex = new RegExp('<img[^>]*\\ssrc\\s*=\\s*["\']([^"\']*)["\'][^>]*>')
-    // const imgRegex = new RegExp('<img[^>]*\\ssrc\\s*=[^>]*>')
-    // const imgRegex = new RegExp('<img src="([^"]+)" alt="([^"]+)"\/>');
     if (!image)
       return;
-    modifiedHtml = modifiedHtml.replace(imgRegex, `<img src="${URL.createObjectURL(image)}">`);
+    modifiedHtml = modifiedHtml.replace(imgRegex, (match, group1) => `<img src="${URL.createObjectURL(image)}"${match.slice(-1)}`);
     setComponent(modifiedHtml);
   }
 
