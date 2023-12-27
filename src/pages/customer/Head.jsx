@@ -127,10 +127,6 @@ const Home = () => {
     Object.keys(schema).forEach((tagName) => {
       const regex = new RegExp(`(<div[^>]*\\sid="${tagName}"[^>]*>)[\\s\\S]*?(<\/div>)`);
       modifiedHtml = modifiedHtml.replace(regex, `$1${data[tagName]}$2`);
-      
-      console.log(modifiedHtml);
-      console.log(`${tagName}`, data[tagName]);
-
     })
 
     // Change the image src
@@ -146,18 +142,18 @@ const Home = () => {
     setOpenModal(true);
   }
 
-  useEffect(() => {
-    axios.get('http://localhost:8080/templates/all')
-      .then(response => {
-        if (!response)
-          return;
-        setDecodedComponent(response.data.data.string);
-      })
-      .catch(error => {
-        console.error('Axios error:', error);
-        alert('Error, please try again.')
-      });
-  }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:8080/templates/all')
+  //     .then(response => {
+  //       if (!response)
+  //         return;
+  //       setDecodedComponent(response.data.data.string);
+  //     })
+  //     .catch(error => {
+  //       console.error('Axios error:', error);
+  //       alert('Error, please try again.')
+  //     });
+  // }, [])
 
   return (
     <>
