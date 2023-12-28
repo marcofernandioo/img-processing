@@ -142,18 +142,18 @@ const Home = () => {
     setOpenModal(true);
   }
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:8080/templates/all')
-  //     .then(response => {
-  //       if (!response)
-  //         return;
-  //       setDecodedComponent(response.data.data.string);
-  //     })
-  //     .catch(error => {
-  //       console.error('Axios error:', error);
-  //       alert('Error, please try again.')
-  //     });
-  // }, [])
+  useEffect(() => {
+    // axios.get('http://localhost:8080/templates/all')
+    //   .then(response => {
+    //     if (!response)
+    //       return;
+    //     setDecodedComponent(response.data.data.string);
+    //   })
+    //   .catch(error => {
+    //     console.error('Axios error:', error);
+    //     alert('Error, please try again.')
+    //   });
+  }, [])
 
   return (
     <>
@@ -238,9 +238,9 @@ const Home = () => {
               }}>
                 <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
                 {
-                  decodedComponent ? (
+                  component ? (
                     <YourComponentWrapper componentAsString={component} />
-                  ) : <h1>diu</h1>
+                  ) : <h1>Try Again</h1>
                 }
                 <Button variant='contained' onClick={handleDownload}>DOWNLOAD</Button>
               </Box>
