@@ -7,10 +7,11 @@ import Head from './pages/customer/Head'
 import Body from './pages/customer/Body'
 import ProtectedRoute from './pages/ProtectedRoute'
 import CustomerLogin from './pages/customer/Login';
+import ThemeProvider from './themes'
 
 const App = () => {
   return (
-    <>
+    <ThemeProvider>
       <Router>
         <Routes>
           <Route path='/' element={<CustomerLogin />} />
@@ -20,7 +21,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
-    </>
+    </ThemeProvider>
   )
 }
 
