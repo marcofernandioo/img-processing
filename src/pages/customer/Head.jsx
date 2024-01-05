@@ -21,6 +21,8 @@ import {
 import ReactHtmlParser from 'react-html-parser'
 
 import { useScreenshot, createFileName } from 'use-react-screenshot';
+import * as api from '../../api'
+import { template } from 'lodash'
 // import { imgRef } from '../../components/HeadPreview';
 
 const useStyles = makeStyles({
@@ -65,6 +67,7 @@ const Home = () => {
     type: 'image/jpg',
     quality: 1.0
   });
+  const [templatesList, setTemplatesList] = useState(null);
   const [decodedComponent, setDecodedComponent] = useState(null);
   const [component, setComponent] = useState(null);
 
@@ -118,10 +121,9 @@ const Home = () => {
   }
 
   const modifyAndRenderContent = () => {
-    // let modifiedHtml = decodeURIComponent(decodedComponent); // Uncomment: Decode the component from the `image` hook.
+    let modifiedHtml = decodeURIComponent(templatesList[0].value); // Uncomment: Decode the component from the `image` hook.
     // Delete: Delete when we're sure about the html layout.
-    
-    let modifiedHtml = decodeURIComponent(`%3Cdiv%0A%20%20style%3D%22%0A%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20background-color%3A%20%23fff%3B%0A%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20overflow%3A%20hidden%3B%0A%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20align-items%3A%20flex-start%3B%0A%20%20%20%20justify-content%3A%20flex-start%3B%0A%20%20%20%20gap%3A%2010px%3B%0A%20%20%20%20text-align%3A%20left%3B%0A%20%20%20%20font-size%3A%2070px%3B%0A%20%20%20%20object-fit%3A%20cover%3B%0A%20%20%20%20color%3A%20%23000%3B%0A%20%20%20%20font-family%3A%20%27Inter%27%3B%0A%20%20%22%0A%3E%0A%20%20%3Cimg%0A%20%20%20%20style%3D%22%0A%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20object-fit%3A%20cover%3B%0A%20%20%20%20%20%20z-index%3A%200%3B%0A%20%20%20%20%22%0A%20%20%20%20alt%3D%22%22%0A%20%20%20%20src%3D%22C%3A%5CUsers%5CASUS%5CDownloads%5Cpexels-pixabay-53610.jpg%22%0A%20%20%2F%3E%0A%0A%20%20%3Cdiv%0A%20%20%20%20style%3D%22%0A%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20margin%3A%200%20!important%3B%0A%20%20%20%20%20%20top%3A%20559px%3B%0A%20%20%20%20%20%20left%3A%200px%3B%0A%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20height%3A%2050%25%3B%0A%20%20%20%20%20%20z-index%3A%201%3B%0A%20%20%20%20%22%0A%20%20%3E%0A%20%20%20%20%3Cdiv%0A%20%20%20%20%20%20style%3D%22%0A%20%20%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20%20%20height%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20top%3A%200%25%3B%0A%20%20%20%20%20%20%20%20right%3A%200%25%3B%0A%20%20%20%20%20%20%20%20bottom%3A%200%25%3B%0A%20%20%20%20%20%20%20%20left%3A%200%25%3B%0A%20%20%20%20%20%20%20%20background-color%3A%20rgba(255%2C%20166%2C%2032%2C%200.4)%3B%0A%20%20%20%20%20%20%22%0A%20%20%20%20%3E%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22alamat%22%20style%3D%22position%3A%20absolute%3B%20top%3A%209.98%25%3B%20left%3A%2036.98%25%22%3E%0A%20%20%20%20%20%20ALamat%20Rumah%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22jenisperumahan%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2033.78%25%3B%20left%3A%2035.21%25%22%3E%0A%20%20%20%20%20%20Jenis%20Perumahan%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22tingkat%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2057.58%25%3B%20left%3A%2026.56%25%22%3ETingkat%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22panjang%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2057.58%25%3B%20left%3A%2047.6%25%22%3Epanjang%3C%2Fdiv%3E%0A%20%20%20%20%3Cdiv%20id%3D%22arahmataangin%22%20style%3D%22position%3A%20absolute%3B%20top%3A%2057.58%25%3B%20left%3A%2067.19%25%22%3E%0A%20%20%20%20%20%20arahmataangin%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fdiv%3E%0A`);
+    console.log(modifiedHtml);
     const schema = dataschema.properties;
 
     Object.keys(schema).forEach((tagName) => {
@@ -143,16 +145,12 @@ const Home = () => {
   }
 
   useEffect(() => {
-    // axios.get('http://localhost:8080/templates/all')
-    //   .then(response => {
-    //     if (!response)
-    //       return;
-    //     setDecodedComponent(response.data.data.string);
-    //   })
-    //   .catch(error => {
-    //     console.error('Axios error:', error);
-    //     alert('Error, please try again.')
-    //   });
+    const jwt = document.cookie.split('=')[1];
+    api.getCustomerTemplate(jwt)
+    .then((data)=> {
+      setTemplatesList(data.data);
+      setDecodedComponent(data.data[0].value);
+    })
   }, [])
 
   return (
