@@ -8,9 +8,44 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import { makeStyles } from '@mui/styles';
+import axios from 'axios';
+
+import { JsonForms } from '@jsonforms/react';
+import {
+  materialCells,
+  materialRenderers,
+} from '@jsonforms/material-renderers';
+import ReactHtmlParser from 'react-html-parser'
 
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-import { imgRef } from '../../components/HeadPreview';
+import * as api from '../../api'
+
+const useStyles = makeStyles({
+  container: {
+    padding: '1em',
+    width: '100%',
+  },
+  title: {
+    textAlign: 'center',
+    padding: '0.25em',
+  },
+  dataContent: {
+    display: 'flex',
+    justifyContent: 'center',
+    borderRadius: '0.25em',
+    backgroundColor: '#cecece',
+    marginBottom: '1rem',
+  },
+  resetButton: {
+    margin: 'auto !important',
+    display: 'block !important',
+  },
+  demoform: {
+    margin: 'auto',
+    padding: '1rem',
+  },
+})
 
 const Home = () => {
   const [data, setData] = useState({
@@ -23,18 +58,19 @@ const Home = () => {
   })
   const [openModal, setOpenModal] = useState(false)
   const [tab, setTab] = useState('manual')
-  const [mataAngin, setMataAngin] = useState('utara')
   const [image, setImage] = useState()
   const [downloadedImage, downloadImage] = useScreenshot({
     type: 'image/jpg',
     quality: 1.0
   });
+  const [templatesList, setTemplatesList] = useState(null);
+  const [decodedComponent, setDecodedComponent] = useState(null);
+  const [component, setComponent] = useState(null);
+  const [uiSchema, setUiSchema] = useState(null);
+  const [dataSchema, setDataSchema] = useState(null);
 
-  const handleChangeData = e => {
-    const name = e.target.name
-    const val = e.target.value
-    setData({ ...data, [name]: val })
-  }
+  const imgRef = createRef(null);
+  const classes = useStyles();
 
   const handleChangeTab = (e, newVal) => {
     setTab(newVal)
@@ -50,18 +86,12 @@ const Home = () => {
       })
   }
 
-
   const download = (image, { name = "img", extension = "jpg" } = {}) => {
     const a = document.createElement("a");
     a.href = image;
     a.download = createFileName(extension, name);
     a.click();
   };
-
-
-  const handleChangeMataAngin = e => {
-    setMataAngin(e.target.value)
-  }
 
   const imgURL = React.useMemo(() => {
     if (image)
@@ -74,18 +104,53 @@ const Home = () => {
     setImage(files[0])
   }
 
-  const handleOpenModal = () => {
-    setOpenModal(true)
-  }
-
-  const handleCloseModal = () => {
-    setOpenModal(false)
-  }
-
   const handleLogout = () => {
     document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // 'delete' cookie.
     window.location.href = "/";
   }
+
+  const renderers = [
+    ...materialRenderers,
+  ];
+
+  const YourComponentWrapper = ({ componentAsString, ref }) => {
+    if (componentAsString)
+      return <div ref={imgRef} >{ReactHtmlParser(componentAsString)}</div>;
+  }
+
+  const modifyAndRenderContent = () => {
+    let modifiedHtml = decodeURIComponent(templatesList[1].value);
+
+    const schema = dataSchema.properties;
+
+    Object.keys(schema).forEach((tagName) => {
+      const regex = new RegExp(`(<div[^>]*\\sid="${tagName}"[^>]*>)[\\s\\S]*?(<\/div>)`);
+      modifiedHtml = modifiedHtml.replace(regex, `$1${data[tagName]}$2`);
+    })
+    
+    // Change the image src
+    const imgRegex = new RegExp('<img[^>]*\\ssrc\\s*=\\s*["\']([^"\']*)["\'][^>]*>')
+    if (!image)
+    return;
+    modifiedHtml = modifiedHtml.replace(imgRegex, (match, group1) => `<img src="${URL.createObjectURL(image)}"${match.slice(-1)}`);
+    setComponent(modifiedHtml);
+  }
+
+  const handleOpenModal = () => {
+    modifyAndRenderContent();
+    setOpenModal(true);
+  }
+
+  useEffect(() => {
+    const jwt = document.cookie.split('=')[1];
+    api.getCustomerTemplate(jwt)
+      .then((data) => {
+        setUiSchema(JSON.parse(data.data[1].uiSchema));
+        setDataSchema(JSON.parse(data.data[1].dataSchema));
+        setTemplatesList(data.data);
+        setDecodedComponent(data.data[0].value);
+      })
+  }, [])
 
   return (
     <>
@@ -111,8 +176,9 @@ const Home = () => {
           </Button><Button
             variant="contained"
             component="label"
+            color="error"
             style={{ height: '100%' }}
-            onClick = {() => handleLogout()}
+            onClick={() => handleLogout()}
           >
             Logout
           </Button>
@@ -124,53 +190,33 @@ const Home = () => {
         <TabContext value={tab}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChangeTab}>
-              <Tab label='Manual' value='manual' />
-              <Tab label='Text' value='text' />
+              <Tab label='Input Data' value='manual' />
+              {/* <Tab label='Text' value='text' /> */}
             </TabList>
           </Box>
           <TabPanel p={0} value='manual'>
             <Stack mb={3} spacing={3}>
-              <TextField id="jenisPerumahan" name='jenisPerumahan' value={data.jenisPerumahan} label="Name" variant="outlined" onChange={handleChangeData} />
-              <TextField id="alamat" name='alamat' label="Address" variant="outlined" value={data.alamat} onChange={handleChangeData} />
-              <TextField type='number' id="harga" name='harga' label="Price" variant="outlined" value={data.harga} onChange={handleChangeData} />
-              <Typography variant="h6">
-                Property Specification
-              </Typography>
-              <TextField id="ukuran" name='ukuran' value={data.ukuran} label="Size" variant="outlined" onChange={handleChangeData} />
-              {/* <TextField id="siapHuni" name='siapHuni' value={data.siapHuni} label="Fully Furnished" variant="outlined" onChange={handleChangeData} /> */}
-              <FormLabel id="demo-radio-buttons-group-label">Furnishing Status</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="Fully Furnished"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel value="Fully Furnished" control={<Radio />} label="Fully Furnished" />
-                <FormControlLabel value="Partially Furnished" control={<Radio />} label="Partially Furnished" />
-                <FormControlLabel value="Unfurnished" control={<Radio />} label="Unfurnished" />
-              </RadioGroup>
-              <TextField id="tingkat" name='tingkat' value={data.tingkat} label="Property Type" variant="outlined" onChange={handleChangeData} />
-              <FormControl>
-                <InputLabel>Direction</InputLabel>
-                <Select
-                  id="demo-simple-select"
-                  value={mataAngin}
-                  label="Direction"
-                  onChange={handleChangeMataAngin}
-                >
-                  <MenuItem value={'utara'}>North</MenuItem>
-                  <MenuItem value={'timur'}>East</MenuItem>
-                  <MenuItem value={'selatan'}>South</MenuItem>
-                  <MenuItem value={'barat'}>West</MenuItem>
-                </Select>
-              </FormControl>
+              <div className={classes.demoform}>
+                {
+                  dataSchema && (
+                    <JsonForms
+                      schema={dataSchema}
+                      uischema={uiSchema}
+                      onChange={({ errors, data }) => setData(data)}
+                      cells={materialCells}
+                      renderers={renderers}
+                      data={data}
+                    />
+                  )
+                }
+              </div>
             </Stack>
           </TabPanel>
-          <TabPanel value='text'>
+          {/* <TabPanel value='text'>
             <Stack mb={3}>
               <TextareaAutosize minRows={8} />
             </Stack>
-          </TabPanel>
+          </TabPanel> */}
         </TabContext>
         {
           image &&
@@ -178,7 +224,7 @@ const Home = () => {
             <Button onClick={handleOpenModal} variant='contained'>PREVIEW</Button>
             <Modal
               open={openModal}
-              onClose={handleCloseModal}
+              onClose={() => setOpenModal(false)}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
               sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}
@@ -193,7 +239,11 @@ const Home = () => {
                 overflow: 'auto'
               }}>
                 <Typography variant="h6" component="h2" mb={3}>Image Preview</Typography>
-                <HeadPreview image={image} mataAngin={mataAngin} data={data} />
+                {
+                  component ? (
+                    <YourComponentWrapper componentAsString={component} />
+                  ) : <h1>Try Again</h1>
+                }
                 <Button variant='contained' onClick={handleDownload}>DOWNLOAD</Button>
               </Box>
             </Modal>

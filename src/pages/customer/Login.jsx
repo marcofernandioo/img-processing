@@ -45,7 +45,7 @@ const Login = () => {
         }
 
         setIsLoginLoading(true);
-        const res = await api.login(email, pw, 'customer');
+        const res = await api.loginCustomer(email, pw, 'customer');
         if (res.error) {
             alert(`${res.error}`);
             setIsLoginLoading(false);
