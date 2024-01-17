@@ -12,8 +12,6 @@ import { makeStyles } from '@mui/styles';
 import axios from 'axios';
 
 import { JsonForms } from '@jsonforms/react';
-import uischema from './uischema.json';
-import dataschema from './dataschema.json';
 import {
   materialCells,
   materialRenderers,
@@ -22,8 +20,6 @@ import ReactHtmlParser from 'react-html-parser'
 
 import { useScreenshot, createFileName } from 'use-react-screenshot';
 import * as api from '../../api'
-import { template } from 'lodash'
-// import { imgRef } from '../../components/HeadPreview';
 
 const useStyles = makeStyles({
   container: {
@@ -70,6 +66,8 @@ const Home = () => {
   const [templatesList, setTemplatesList] = useState(null);
   const [decodedComponent, setDecodedComponent] = useState(null);
   const [component, setComponent] = useState(null);
+  const [uiSchema, setUiSchema] = useState(null);
+  const [dataSchema, setDataSchema] = useState(null);
 
   const imgRef = createRef(null);
   const classes = useStyles();
@@ -121,20 +119,19 @@ const Home = () => {
   }
 
   const modifyAndRenderContent = () => {
-    let modifiedHtml = decodeURIComponent(templatesList[0].value); // Uncomment: Decode the component from the `image` hook.
-    // Delete: Delete when we're sure about the html layout.
-    console.log(modifiedHtml);
-    const schema = dataschema.properties;
+    let modifiedHtml = decodeURIComponent(templatesList[1].value);
+
+    const schema = dataSchema.properties;
 
     Object.keys(schema).forEach((tagName) => {
       const regex = new RegExp(`(<div[^>]*\\sid="${tagName}"[^>]*>)[\\s\\S]*?(<\/div>)`);
       modifiedHtml = modifiedHtml.replace(regex, `$1${data[tagName]}$2`);
     })
-
+    
     // Change the image src
     const imgRegex = new RegExp('<img[^>]*\\ssrc\\s*=\\s*["\']([^"\']*)["\'][^>]*>')
     if (!image)
-      return;
+    return;
     modifiedHtml = modifiedHtml.replace(imgRegex, (match, group1) => `<img src="${URL.createObjectURL(image)}"${match.slice(-1)}`);
     setComponent(modifiedHtml);
   }
@@ -147,10 +144,12 @@ const Home = () => {
   useEffect(() => {
     const jwt = document.cookie.split('=')[1];
     api.getCustomerTemplate(jwt)
-    .then((data)=> {
-      setTemplatesList(data.data);
-      setDecodedComponent(data.data[0].value);
-    })
+      .then((data) => {
+        setUiSchema(JSON.parse(data.data[1].uiSchema));
+        setDataSchema(JSON.parse(data.data[1].dataSchema));
+        setTemplatesList(data.data);
+        setDecodedComponent(data.data[0].value);
+      })
   }, [])
 
   return (
@@ -177,6 +176,7 @@ const Home = () => {
           </Button><Button
             variant="contained"
             component="label"
+            color="error"
             style={{ height: '100%' }}
             onClick={() => handleLogout()}
           >
@@ -190,29 +190,33 @@ const Home = () => {
         <TabContext value={tab}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChangeTab}>
-              <Tab label='Manual' value='manual' />
-              <Tab label='Text' value='text' />
+              <Tab label='Input Data' value='manual' />
+              {/* <Tab label='Text' value='text' /> */}
             </TabList>
           </Box>
           <TabPanel p={0} value='manual'>
             <Stack mb={3} spacing={3}>
               <div className={classes.demoform}>
-                <JsonForms
-                  schema={dataschema}
-                  uischema={uischema}
-                  onChange={({ errors, data }) => setData(data)}
-                  cells={materialCells}
-                  renderers={renderers}
-                  data={data}
-                />
+                {
+                  dataSchema && (
+                    <JsonForms
+                      schema={dataSchema}
+                      uischema={uiSchema}
+                      onChange={({ errors, data }) => setData(data)}
+                      cells={materialCells}
+                      renderers={renderers}
+                      data={data}
+                    />
+                  )
+                }
               </div>
             </Stack>
           </TabPanel>
-          <TabPanel value='text'>
+          {/* <TabPanel value='text'>
             <Stack mb={3}>
               <TextareaAutosize minRows={8} />
             </Stack>
-          </TabPanel>
+          </TabPanel> */}
         </TabContext>
         {
           image &&
