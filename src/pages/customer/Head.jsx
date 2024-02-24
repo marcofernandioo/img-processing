@@ -119,6 +119,7 @@ const Home = () => {
   }
 
   const modifyAndRenderContent = () => {
+    console.log(templatesList);
     let modifiedHtml = decodeURIComponent(templatesList[1].value);
 
     const schema = dataSchema.properties;

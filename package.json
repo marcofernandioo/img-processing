@@ -36,6 +36,7 @@
     "react-helmet": "^6.1.0",
     "react-html-parser": "^2.0.2",
     "react-router-dom": "^6.10.0",
+    "simplebar-react": "^3.2.4",
     "use-react-screenshot": "^3.0.0",
     "vite": "^4.5.0",
     "vite-plugin-svgr": "^4.1.0",

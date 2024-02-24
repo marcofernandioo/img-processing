@@ -18,7 +18,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import * as api from '../../api'
 import { bgGradient } from '../../themes/css';
 import Iconify from '../../components/Iconify';
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [user, setUser] = useState({
@@ -37,7 +36,7 @@ const Login = () => {
             [name]: value
         });
     };
-    const navigate = useNavigate()
+
     const handleLogin = async (email, pw) => {
         if (!email || !pw) {
             alert("Enter a valid email and password")
@@ -46,7 +45,7 @@ const Login = () => {
         }
 
         setIsLoginLoading(true);
-        const res = await api.loginCustomer(email, pw, 'customer');
+        const res = await api.loginAdmin(email, pw);
         if (res.error) {
             alert(`${res.error}`);
             setIsLoginLoading(false);
@@ -58,7 +57,8 @@ const Login = () => {
         document.cookie = `accessToken=${accessToken}; refreshToken=${refreshToken}; path=/; expires=${new Date(Date.now() + 604800000).toUTCString()}`; // Token expires in 7 days.
 
         setIsLoginLoading(false);
-        navigate('/head')
+        window.location.href = '/admin/dashboard';
+
     }
 
     return (
@@ -85,7 +85,7 @@ const Login = () => {
                             maxWidth: 420,
                         }}
                     >
-                        <Typography variant="h4">Welcome to efka</Typography>
+                        <Typography variant="h4">Welcome: Admin Login</Typography>
                         <Stack spacing={3} sx={{ my: 3 }}>
                             <TextField
                                 name="email"
